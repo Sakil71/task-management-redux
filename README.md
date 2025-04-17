@@ -1,1 +1,1 @@
-Tasksmaster Server => https://github.com/mir-hussain/taskmaster-server
+Tasksmaster Server => https://github.com/Sakil71/task-management-server.git
