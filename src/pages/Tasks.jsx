@@ -10,8 +10,8 @@ import { useGetTaskQuery } from '../redux/features/api/baseApi';
 
 const Tasks = () => {
   let [isOpen, setIsOpen] = useState(false);
-  const { data: tasks, isError, isLoading } = useGetTaskQuery();
-  const { email } = useSelector(state => state.userSlice);  
+  const { data: tasks } = useGetTaskQuery();
+  const { email, photoURL , name} = useSelector(state => state.userSlice);
 
   const pendingTask = tasks?.filter(task => task.status == "pending");
   const runningTask = tasks?.filter(task => task.status == "running");
@@ -35,10 +35,15 @@ const Tasks = () => {
             <AddTaskModal isOpen={isOpen} setIsOpen={setIsOpen}></AddTaskModal>
             {
               email ?
-                <div className="relative inline-block text-left">
+                <div title={name} className="relative inline-block text-left">
                   <UserDropDown>
-                    <div className="h-10 w-10 flex justify-center items-center border rounded-full  p-2 overflow-hidden">
-                      <UserIcon></UserIcon>
+                    <div className={`${photoURL ? '' : 'p-2'} h-10 w-10 flex justify-center items-center border rounded-full overflow-hidden`}>
+                      {
+                        photoURL ?
+                          <img className='rounded-full border-2 border-blue-600 object-cover' src={photoURL} alt="" />
+                          :
+                          <UserIcon></UserIcon>
+                      }
                     </div>
                   </UserDropDown>
                 </div>
@@ -133,7 +138,7 @@ const Tasks = () => {
             </div>
           </div>
         </div>
-        <MyTasks tasks={tasks}/>
+        <MyTasks tasks={tasks} />
       </div>
     </div>
   );
