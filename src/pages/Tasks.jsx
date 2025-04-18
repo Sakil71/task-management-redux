@@ -1,7 +1,7 @@
 import { BellIcon, MagnifyingGlassIcon, UserIcon } from '@heroicons/react/24/outline';
 import MyTasks from '../components/tasks/MyTasks';
 import TaskCard from '../components/tasks/TaskCard';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AddTaskModal from '../components/tasks/AddTaskModal';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,13 +9,32 @@ import UserDropDown from '../components/ui/UserDropDown';
 import { useGetTaskQuery } from '../redux/features/api/baseApi';
 
 const Tasks = () => {
-  let [isOpen, setIsOpen] = useState(false);
   const { data: tasks } = useGetTaskQuery();
-  const { email, photoURL , name} = useSelector(state => state.userSlice);
+  const { email, photoURL, name } = useSelector(state => state.userSlice);
+  const prevTaskCount = useRef(0);
+  let [isOpen, setIsOpen] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchterm, setSearchterm] = useState('');
 
-  const pendingTask = tasks?.filter(task => task.status == "pending");
-  const runningTask = tasks?.filter(task => task.status == "running");
-  const doneTask = tasks?.filter(task => task.status == "done");
+  const filterSearch = task => {
+    return task.title?.toLowerCase().includes(searchterm.toLowerCase());
+  }
+
+  const pendingTask = tasks?.filter(task => task.status == "pending" && filterSearch(task));
+  const runningTask = tasks?.filter(task => task.status == "running" && filterSearch(task));
+  const doneTask = tasks?.filter(task => task.status == "done" && filterSearch(task));
+
+
+
+  useEffect(() => {
+    if (tasks && prevTaskCount.current !== 0 && tasks.length > prevTaskCount.current) {
+      setShowNotification(true);
+    }
+    if (tasks) {
+      prevTaskCount.current = tasks.length;
+    }
+  }, [tasks]);
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -25,14 +44,28 @@ const Tasks = () => {
             <h1 className="font-semibold text-3xl mb-2 md:mb-0">Tasks</h1>
           </div>
           <div className="flex items-center gap-5">
-            <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
-              <MagnifyingGlassIcon className="h-6 w-6" />
-            </button>
-            <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
-              <BellIcon className="h-6 w-6" />
-            </button>
+
+            <div className='flex flex-row-reverse gap-2'>
+              <button onClick={() => setSearchOpen(prev => !prev)} className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
+                <MagnifyingGlassIcon className="h-6 w-6" />
+              </button>
+              {
+                searchOpen && <input onChange={e => setSearchterm(e.target.value)} type="search" placeholder="Search tasks..." className=" rounded-md  text-sm shadow-md" />
+              }
+            </div>
+
+            <div className='relative'>
+              <button onClick={() => setShowNotification(false)} className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
+                <BellIcon className="h-6 w-6" />
+                {
+                  showNotification && <span className="absolute -top-1 -right-1 bg-red-500 text-white w-4 h-4 rounded-full text-xs flex items-center justify-center">!</span>
+                }
+              </button>
+            </div>
+
             <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary text-xs">Add Task</button>
             <AddTaskModal isOpen={isOpen} setIsOpen={setIsOpen}></AddTaskModal>
+
             {
               email ?
                 <div className="relative inline-block text-left">
