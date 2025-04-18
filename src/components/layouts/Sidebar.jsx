@@ -8,6 +8,7 @@ import {
 
 import logo from '../../assets/image/logo.png';
 import { NavLink } from 'react-router-dom';
+import { ClipboardIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
   return (
@@ -24,6 +25,18 @@ const Sidebar = () => {
         >
           <SquaresPlusIcon className="h-7 w-7 group-hover:text-white" />
         </NavLink>
+
+        <NavLink
+          to="/my-task"
+          className={({ isActive }) =>
+            isActive
+              ? 'p-2 rounded-2xl bg-primary text-white cursor-pointer'
+              : 'p-2 rounded-2xl group hover:bg-primary text-secondary/40 cursor-pointer transition-all'
+          }
+        >
+          <ClipboardIcon className="h-7 w-7 group-hover:text-white" />
+        </NavLink>
+        
         <NavLink
           to="/archeive"
           className={({ isActive }) =>

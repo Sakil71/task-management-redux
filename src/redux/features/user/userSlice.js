@@ -35,9 +35,6 @@ export const signInUser = createAsyncThunk('userSlice/signInUser', async ({ emai
 export const googleAuthentication = createAsyncThunk('userSlice/googleAuthentication', async () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
-
-
     return {
         name: result.user.displayName,
         email: result.user.email,

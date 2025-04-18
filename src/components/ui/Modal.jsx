@@ -1,7 +1,6 @@
 import { Dialog } from '@headlessui/react';
 
-export default function Modal({ isOpen, setIsOpen, title, children }) {
-    
+export default function Modal({ isOpen, setIsOpen, title, children }) {  
 
     return (
         <>

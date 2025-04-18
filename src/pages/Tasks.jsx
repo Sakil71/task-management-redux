@@ -19,10 +19,10 @@ const Tasks = () => {
 
   return (
     <div className="h-screen grid grid-cols-12">
-      <div className="col-span-9 px-10 pt-10">
-        <div className="flex justify-between items-center">
+      <div className="col-span-full md:col-span-9 px-2 md:px-10 pt-4 md:pt-10">
+        <div className="md:flex justify-between items-center">
           <div>
-            <h1 className="font-semibold text-3xl">Tasks</h1>
+            <h1 className="font-semibold text-3xl mb-2 md:mb-0">Tasks</h1>
           </div>
           <div className="flex items-center gap-5">
             <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
@@ -31,11 +31,11 @@ const Tasks = () => {
             <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
               <BellIcon className="h-6 w-6" />
             </button>
-            <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary">Add Task</button>
+            <button onClick={() => setIsOpen(!isOpen)} className="btn btn-primary text-xs">Add Task</button>
             <AddTaskModal isOpen={isOpen} setIsOpen={setIsOpen}></AddTaskModal>
             {
               email ?
-                <div title={name} className="relative inline-block text-left">
+                <div className="relative inline-block text-left">
                   <UserDropDown>
                     <div className={`${photoURL ? '' : 'p-2'} h-10 w-10 flex justify-center items-center border rounded-full overflow-hidden`}>
                       {
@@ -53,8 +53,8 @@ const Tasks = () => {
 
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-5 mt-10">
-          <div className="relative h-[800px] overflow-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+          <div className="relative overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>Pending</h1>
               <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
@@ -67,7 +67,7 @@ const Tasks = () => {
               }
             </div>
           </div>
-          <div className="relative h-[800px] overflow-auto">
+          <div className="relative overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>In Progress</h1>
               <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
@@ -80,7 +80,7 @@ const Tasks = () => {
               }
             </div>
           </div>
-          <div className="relative h-[800px] overflow-auto">
+          <div className="relative overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>Completed</h1>
               <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
@@ -96,8 +96,8 @@ const Tasks = () => {
         </div>
       </div>
 
-      {/* Profile */}
-      <div className="col-span-3 border-l-2 border-secondary/20 px-10 pt-10">
+      {/* My task */}
+      <div className="col-span-3 border-l-2 border-secondary/20 px-10 pt-10 hidden md:block">
         <div>
           <h1 className="text-xl">Members</h1>
           <div className="flex gap-3 mt-3">

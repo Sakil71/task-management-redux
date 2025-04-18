@@ -2,13 +2,14 @@ import { CheckIcon, DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outl
 import { useSelector } from 'react-redux';
 import Modal from '../ui/Modal';
 import { useState } from 'react';
-import { useUpdateTaskMutation } from '../../redux/features/api/baseApi';
+import { useGetTaskQuery, useUpdateTaskMutation } from '../../redux/features/api/baseApi';
 
-const MyTasks = ({ tasks }) => {
+const MyTasks = () => {
+  const { data: tasks } = useGetTaskQuery();
   const [updatatask, { data, error }] = useUpdateTaskMutation();
 
   const [selectedTask, setSelectedTask] = useState(null);
-  const { name, email } = useSelector(state => state.userSlice);
+  const { name } = useSelector(state => state.userSlice);
   const userName = name.split(" ")[0].toLowerCase();
 
   const userSpecificTask = tasks?.filter(task => task.assignTo === userName);
@@ -16,8 +17,8 @@ const MyTasks = ({ tasks }) => {
 
   return (
     <div>
-      <h1 className="text-xl my-3">My Tasks</h1>
-      <div className="h-[750px] overflow-auto space-y-3">
+      <h1 className="text-xl my-3 font-semibold">My Tasks</h1>
+      <div className="overflow-auto space-y-3">
         {
           userSpecificTask?.map(item => (
             <div

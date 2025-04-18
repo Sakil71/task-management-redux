@@ -25,7 +25,7 @@ const PrivateRoutes = ({ children }) => {
                 dispatch(toggleLoading(false));
             }
         })
-    }, [dispatch])
+    }, [dispatch]);
 
     if (isLoading) {
        return <Loading></Loading>

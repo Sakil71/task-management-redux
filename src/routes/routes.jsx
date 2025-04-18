@@ -8,6 +8,7 @@ import Archeive from '../pages/Archeive';
 import PrivateRoutes from '../components/layouts/PrivateRoutes';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import MyTasks from '../components/tasks/MyTasks';
 const routes = createBrowserRouter([
   {
     path: '/',
@@ -32,6 +33,10 @@ const routes = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />,
+      },
+      {
+        path: '/my-task',
+        element: <MyTasks />,
       },
     ],
   },
